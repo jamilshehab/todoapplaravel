@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Storage;
 
 class PostController extends Controller
 {
@@ -34,17 +35,29 @@ class PostController extends Controller
     public function store(Request $request)
     {
         //
-        $user=auth()->id();
+        try {
+            //code...
+            $user=auth()->id();
         $validated=$request->validate([
             'title'=>'required|string|max:255',
             'content'=>'nullable|string',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
-        if($request->hasFile('image')){
-        $request->file('image')->store('uploads', 'public');
-        }
+           
         $validated['user_id']=$user;
-        Post::create($validated);
+       if ($request->hasFile('image')) {
+         $validated['image'] = $request->file('image')->store('posts', 'public');         
+        }
+       Post::create($validated);
+        } catch (\Throwable $th) {
+            //throw $th;
+        return redirect()->back()->with('error', 'Error: '.$th->getMessage());
+
+        }
+        
+      
+     
+     
         return redirect()->route('post.index')->with('success');
     }
 

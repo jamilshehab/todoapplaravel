@@ -3,17 +3,9 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    {{ __("You're logged in!") }}
-                </div>
-            </div>
-        </div>
-    </div>
-
- @if($posts->count()>0)
+              @if($posts->count()>0)
   @foreach ($posts as $post )
-               <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
+   <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
     <a href="#">
         <img class="rounded-t-lg w-full h-auto" src="{{ asset('storage/' . $post->image) }}" alt="" />
     </a>
@@ -34,4 +26,8 @@
 @else
 <p>No Posts Found</p>
 @endif
+        </div>
+    </div>
+
+
 </x-app-layout>
